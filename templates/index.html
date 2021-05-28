@@ -1,7 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
 {% with messages = get_flashed_messages() %}
 {% if messages %}
 {% for message in messages %}
-    <p>{{message}}</p>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
 {% endfor %}
 {% endif %}
 {% endwith %}
@@ -20,3 +28,35 @@
     </button>
 
 </form>
+
+<table>
+    <thead>
+        <tr>
+            <td>Nombre</td>
+            <td>Dueño</td>
+            <td>Especie</td>
+            <td>sex</td>
+            <td>Nacimiento</td>
+            <td>Fallecimiento</td>
+            <td>OPERACIONES</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pet in pets %}
+            <tr>
+                <td>{{ pet.1 }}</td>
+                <td>{{ pet.2 }}</td>
+                <td>{{ pet.3 }}</td>
+                <td>{{ pet.4 }}</td>
+                <td>{{ pet.5 }}</td>
+                <td>{{ pet.6 }}</td>
+                <td>
+                    <a href="/edit/{{ pet.0 }}">Editar</a>
+                    <a href="/delete/{{ pet.0 }}">Eliminar</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

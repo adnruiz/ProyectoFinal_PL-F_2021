@@ -20,7 +20,10 @@ app.secret_key = 'mysecretkey'
 #Rutas para nuestra app
 @app.route('/')
 def Index():
-    return render_template('index.html')
+    cursorMySQL = mysql.connection.cursor()
+    cursorMySQL.execute('SELECT * FROM pet')
+    data = cursorMySQL.fetchall()
+    return render_template('index.html', pets = data)
 
 @app.route('/add_pet', methods=['POST'])
 def add_pet():
@@ -42,13 +45,50 @@ def add_pet():
 
     return redirect(url_for('Index'))
 
-@app.route('/edit')
-def edit_pet():
-    return 'Editar mascotas'
+@app.route('/edit/<id>')
+def edit_pet(id):
+    cursorMySQL = mysql.connection.cursor()
+    cursorMySQL.execute('SELECT * FROM pet WHERE id = %s', (id))
+    data = cursorMySQL.fetchall()
+    print(data[0])
+    return render_template('edit-pet.html', pet = data[0])
 
-@app.route('/delete')
-def delete_pet():
-    return 'Elimiar Mascota'
+@app.route('/update/<id>', methods = ['POST'])
+def update_pet(id):
+    if request.method == 'POST':
+
+        name = request.form['name']
+        owner = request.form['owner']
+        species = request.form['species']
+        sex = request.form['sex']
+        birth = request.form['birth']
+        death = request.form['death']
+
+        cursorMySQL = mysql.connection.cursor()
+
+        cursorMySQL.execute(""" 
+            UPDATE pet
+            SET name = %s,
+                owner = %s,
+                species = %s,
+                sex = %s,
+                birth = %s,
+                death = %s 
+            WHERE id = %s
+        """, [name, owner, species, sex, birth, death, id])
+    
+        flash('Mascota actualizada correctamente.')
+        mysql.connection.commit()
+        return redirect(url_for('Index'))
+
+@app.route('/delete/<string:id>')
+def delete_pet(id):
+    cursorMySQl = mysql.connection.cursor()
+    cursorMySQl.execute('DELETE FROM pet WHERE id = {0}'.format(id))
+    mysql.connection.commit()
+    flash('Mascota removida correctamente')
+    return redirect(url_for('Index'))
+    
 
 
 

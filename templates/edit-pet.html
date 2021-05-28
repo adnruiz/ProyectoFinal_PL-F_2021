@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<form action="/update/{{pet.0}}" method="POST">
+    <input type="text" name="name" placeholder="name" value="{{ pet.1 }}">
+    <input type="text" name="owner" placeholder="owner" value="{{ pet.2 }}">
+    <input type="text" name="species" placeholder="species" value="{{ pet.3 }}">
+    <input type="text" name="sex" placeholder="sex" value="{{ pet.4 }}">
+    <input type="text" name="birth" placeholder="birth" value="{{ pet.5 }}">
+    <input type="text" name="death" placeholder="death" value="{{ pet.6 }}">
+
+    <button type="submit">
+        Guardar
+    </button>
+</form>
+
+{% endblock %}
