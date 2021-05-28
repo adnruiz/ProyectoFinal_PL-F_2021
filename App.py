@@ -1,3 +1,5 @@
+from os import name
+import re
 from flask import Flask, render_template, request, redirect, url_for
 from flask.helpers import flash
 from flask_mysqldb import MySQL
@@ -25,6 +27,13 @@ def Index():
     data = cursorMySQL.fetchall()
     return render_template('index.html', pets = data)
 
+@app.route('/events')
+def events():
+    cursorMySQL = mysql.connection.cursor()
+    cursorMySQL.execute('SELECT * FROM event')
+    data = cursorMySQL.fetchall()
+    return render_template('events.html', events = data)
+
 @app.route('/add_pet', methods=['POST'])
 def add_pet():
     if request.method == 'POST':
@@ -44,6 +53,23 @@ def add_pet():
         flash('Mascota agregada correctamente!')
 
     return redirect(url_for('Index'))
+
+@app.route('/add_event', methods=['POST'])
+def add_event():
+    if request.method == 'POST':
+        name = request.form['name']
+        date = request.form['date']
+        type = request.form['type']
+        remark = request.form['remark']
+
+        #pasar datos a mysql
+        cursorMySQL = mysql.connection.cursor()
+        cursorMySQL.execute('INSERT INTO event (name, date, type, remark) VALUES (%s, %s, %s, %s)',
+        (name, date, type, remark))
+        mysql.connection.commit()
+        flash('Evento agregado correctamente.')
+    return redirect(url_for('events'))
+        
 
 @app.route('/edit/<id>')
 def edit_pet(id):

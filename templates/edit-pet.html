@@ -2,17 +2,42 @@
 
 {% block body %}
 
-<form action="/update/{{pet.0}}" method="POST">
-    <input type="text" name="name" placeholder="name" value="{{ pet.1 }}">
-    <input type="text" name="owner" placeholder="owner" value="{{ pet.2 }}">
-    <input type="text" name="species" placeholder="species" value="{{ pet.3 }}">
-    <input type="text" name="sex" placeholder="sex" value="{{ pet.4 }}">
-    <input type="text" name="birth" placeholder="birth" value="{{ pet.5 }}">
-    <input type="text" name="death" placeholder="death" value="{{ pet.6 }}">
-
-    <button type="submit">
-        Guardar
-    </button>
-</form>
+<div class="row">
+    <div class="col-md-5">
+        <div class="card card-body">
+            <form action="/update/{{pet.0}}" method="POST">
+                <div class="card-text">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nombre de mascota: </label>
+                        <input class="form-control" type="text" name="name" placeholder="name" value="{{ pet.1 }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="owner" class="form-label">Dueño: </label>
+                        <input class="form-control" type="text" name="owner" placeholder="owner" value="{{ pet.2 }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="species" class="form-label">Especie: </label>
+                        <input class="form-control" type="text" name="species" placeholder="species" value="{{ pet.3 }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="sex" class="form-label">Sex: </label>
+                        <input class="form-control" type="text" name="sex" placeholder="sex" value="{{ pet.4 }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="birth" class="form-label">Nacimiento: </label>
+                        <input class="form-control" type="text" name="birth" placeholder="birth" value="{{ pet.5 }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="death" class="form-label">Muerte: </label>
+                        <input class="form-control" type="text" name="death" placeholder="death" value="{{ pet.6 }}">
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    Guardar <i class="fas fa-save"></i>
+                </button>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}
