@@ -79,6 +79,14 @@ def edit_pet(id):
     print(data[0])
     return render_template('edit-pet.html', pet = data[0])
 
+@app.route('/edit_event/<id>')
+def edit_event(id):
+    cursorMySQL = mysql.connection.cursor()
+    cursorMySQL.execute('SELECT * FROM event WHERE id = %s', (id))
+    data = cursorMySQL.fetchall()
+    print(data[0])
+    return render_template('edit-event.html', event = data[0])
+
 @app.route('/update/<id>', methods = ['POST'])
 def update_pet(id):
     if request.method == 'POST':
@@ -107,6 +115,31 @@ def update_pet(id):
         mysql.connection.commit()
         return redirect(url_for('Index'))
 
+@app.route('/update_event/<id>', methods = ['POST'])
+def update_event(id):
+    if request.method == 'POST':
+
+        name = request.form['name']
+        date = request.form['date']
+        type = request.form['type']
+        remark = request.form['remark']
+
+        cursorMySQL = mysql.connection.cursor()
+
+        cursorMySQL.execute(""" 
+            UPDATE event
+            SET name = %s,
+                date = %s,
+                type = %s,
+                remark = %s
+            WHERE id = %s
+        """, [name, date, type, remark, id])
+    
+        flash('Evento actualizado correctamente.')
+        mysql.connection.commit()
+        return redirect(url_for('events'))
+
+
 @app.route('/delete/<string:id>')
 def delete_pet(id):
     cursorMySQl = mysql.connection.cursor()
@@ -115,7 +148,13 @@ def delete_pet(id):
     flash('Mascota removida correctamente')
     return redirect(url_for('Index'))
     
-
+@app.route('/delete_event/<string:id>')
+def delete_event(id):
+    cursorMySQl = mysql.connection.cursor()
+    cursorMySQl.execute('DELETE FROM event WHERE id = {0}'.format(id))
+    mysql.connection.commit()
+    flash('Evento removida correctamente')
+    return redirect(url_for('events'))
 
 
 if __name__ == '__main__':

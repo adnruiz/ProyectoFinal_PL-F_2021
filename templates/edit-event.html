@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="card card-body">
+            <form action="/update_event/{{event.0}}" method="POST">
+                <div class="card-text">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nombre de mascota: </label>
+                        <input class="form-control" type="text" name="name" placeholder="name" value="{{ event.1 }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Fecha: </label>
+                        <input class="form-control" type="text" name="date" placeholder="date" value="{{ event.2 }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Tipo: </label>
+                        <input class="form-control" type="text" name="type" placeholder="type" value="{{ event.3 }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="remark" class="form-label">Remark: </label>
+                        <input class="form-control" type="text" name="remark" placeholder="remark" value="{{ event.4 }}">
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    Guardar <i class="fas fa-save"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
