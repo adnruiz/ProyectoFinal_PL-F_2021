@@ -1,0 +1,22 @@
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+    <p>{{message}}</p>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<form action="/add_pet" method="POST">
+
+    <input type="text" name="name" placeholder="name">
+    <input type="text" name="owner" placeholder="owner">
+    <input type="text" name="species" placeholder="species">
+    <input type="text" name="sex" placeholder="sex">
+    <input type="text" name="birth" placeholder="birth">
+    <input type="text" name="death" placeholder="death">
+
+    <button type="submit">
+        Agregar
+    </button>
+
+</form>
