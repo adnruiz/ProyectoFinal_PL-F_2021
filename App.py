@@ -22,10 +22,14 @@ app.secret_key = 'mysecretkey'
 #Rutas para nuestra app
 @app.route('/')
 def Index():
+    return render_template('index.html')
+
+@app.route('/pets')
+def pets():
     cursorMySQL = mysql.connection.cursor()
     cursorMySQL.execute('SELECT * FROM pet')
     data = cursorMySQL.fetchall()
-    return render_template('index.html', pets = data)
+    return render_template('pets.html', pets = data)
 
 @app.route('/events')
 def events():
@@ -52,7 +56,7 @@ def add_pet():
 
         flash('Mascota agregada correctamente!')
 
-    return redirect(url_for('Index'))
+    return redirect(url_for('pets'))
 
 @app.route('/add_event', methods=['POST'])
 def add_event():
@@ -146,7 +150,7 @@ def delete_pet(id):
     cursorMySQl.execute('DELETE FROM pet WHERE id = {0}'.format(id))
     mysql.connection.commit()
     flash('Mascota removida correctamente')
-    return redirect(url_for('Index'))
+    return redirect(url_for('pets'))
     
 @app.route('/delete_event/<string:id>')
 def delete_event(id):
