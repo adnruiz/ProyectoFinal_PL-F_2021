@@ -71,7 +71,15 @@
             </tbody>
         </table>
     </div>
+
+    
 </div>
+
+<div class="col-auto p-5 text-center">
+    <a href="{{ url_for('.download_report_pets') }}">Generar Reporte <i class="far fa-file-pdf"></i></a>
+</div>
+
+
 
 {% with messages = get_flashed_messages() %}
 {% if messages %}

@@ -1,8 +1,10 @@
 from os import name
 import re
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, Response
 from flask.helpers import flash
 from flask_mysqldb import MySQL
+from fpdf import FPDF
+
 
 
 
@@ -160,6 +162,55 @@ def delete_event(id):
     flash('Evento removida correctamente')
     return redirect(url_for('events'))
 
+@app.route('/download/report_pet/pdf')
+def download_report_pets():
+   
+    pdf = FPDF('P', 'mm','A4')
+    pdf.add_page()
+    page_width = pdf.w - 2 
+    pdf.set_font('Times', 'B', 14.0)
+    pdf.set_fill_color(0,0,255)
+    pdf.cell(190, 10, "Reporte de mascotas", 10, 25, "C")
+    pdf.cell(15, 10, "ID", 1, 0)
+    pdf.cell(35, 10, "Nombre", 1, 0)
+    pdf.cell(38, 10, "Dueño", 1, 0)
+    pdf.cell(30, 10, "Especie", 1, 0)
+    pdf.cell(15, 10, "Sexo", 1, 0)
+    pdf.cell(40, 10, "Nacimiento", 1, 0)
+    pdf.cell(30, 10, "Muerte", 1, 1)
+    
 
+    cursorMySQL = mysql.connection.cursor()
+    cursorMySQL.execute("SELECT * FROM pet")
+    resultado = cursorMySQL.fetchall()
+
+    th = 14
+
+    for reg in resultado:
+        id = reg[0]
+        name = reg[1]
+        owner = reg[2]
+        species = reg[3]
+        sex = reg[4]
+        birth = reg[5]
+        death = reg[6]
+        pdf.cell(15, 10, "id=%s" %(id), 1, 0)
+        pdf.cell(35, 10, "name=%s" %(name,), 1, 0)
+        pdf.cell(38, 10, "owner=%s" %(owner), 1, 0)
+        pdf.cell(30, 10, "species=%s" %(species), 1, 0)
+        pdf.cell(15, 10, "sex=%s" %(sex), 1, 0)
+        pdf.cell(40, 10, "birth=%s" %(birth), 1, 0)
+        pdf.cell(30, 10, "death=%s" %(death), 1, 0)
+        pdf.ln(th)
+    
+    pdf.ln(14)
+    pdf.cell(page_width, 0.0, '- end of report -')
+
+
+    return pdf.output(name = "reporte_mascotas.pdf", dest = 'F')
+
+        
+
+    
 if __name__ == '__main__':
     app.run(port=3000, debug= True)
