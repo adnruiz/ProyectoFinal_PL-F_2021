@@ -14,7 +14,7 @@
     <title>Veterinario</title>
     
 </head>
-<body>
+<body class="loggedin">
     <nav class="navbar navbar-dark bg-primary">
         <div class="container-fluid">
           <a class="navbar-brand" href="/">Menagerie</a>
@@ -28,6 +28,13 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link active" href="/pets">Mascotas</a>
+              </li>
+              <li class="nav-item active"><a class="nav-link active" href="{{ url_for('home') }}"><i class="fas fa-home"></i>Home</a></li>
+              <li class="nav-item">
+                <a class="nav-link active" href=""><i class="fas fa-user-circle"></i>Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i>Logout</a>
               </li>
             </ul>
           </div>

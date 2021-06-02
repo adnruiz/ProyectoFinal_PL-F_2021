@@ -1,20 +1,24 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-
-<form action="{{ url_for('login') }}" method="post">
+<h1>Register</h1>
+<form action="{{ url_for('register') }}" method="post" autocomplete="off">
     <div class="mb-3">
       <label for="username">Usuario <i class="fas fa-user"></i></label>
       <input type="text" class="form-control" name="username" id="username" placeholder="username" required>
-      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+      
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Password <i class="fas fa-lock"></i></label>
       <input type="password" class="form-control" name="password" placeholder="Password" id="password" required">
     </div>
+
+    <div class="mb-3">
+        <label for="email" class="form-label">Email<i class="fas fa-envelope"></i></label>
+        <input type="email" class="form-control" name="email" placeholder="Email" id="email" required>
+    </div>
     
-    <button type="submit" class="btn btn-primary">Login</button>
-    <a href="{{ url_for('register') }}"  class="btn btn-primary">Register</a>
+    <button type="submit" class="btn btn-primary">Register</button>
     <div class="msg">{{ msg }}</div>
 </form>
 
